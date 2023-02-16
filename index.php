@@ -13,8 +13,32 @@ require($_SERVER['DOCUMENT_ROOT'].'/partials/header.php');
 		?>
 		<div id="colorlib-main">
 			<?php
-			// connecting Main
-			require($_SERVER['DOCUMENT_ROOT'].'/partials/pages/home.php');
+			$page = 'home';
+			if (isset($_GET['p'])) {
+				switch ($_GET['p']) {
+					case 'photography':
+						$page = 'photography';
+						break;
+					case 'travel':
+						$page = 'travel';
+						break;
+					case 'fashion':
+						$page = 'fashion';
+						break;
+					case 'about':
+						$page = 'about';
+						break;
+					case 'contact':
+						$page = 'contact';
+						break;
+					default:
+						$page = 'home';
+						break;
+				}
+			}
+
+			// connect the page depending on the request
+			require($_SERVER['DOCUMENT_ROOT']."/partials/pages/". $page . ".php");
 			
 			// connecting Footer
 			require($_SERVER['DOCUMENT_ROOT'].'/partials/footer.php');
