@@ -1,14 +1,15 @@
 $('.likeBtn').on('click', function(e) {
     let that = $(this);
-    $.post( "/api.php?p=like", { post_id: $(this).data('id')}).done(function(data) {
+    $.post( "/api.php?p=like", { post_id: that.data('id')}).done(function(data) {
         
-        console.dir( data ); 
+        data = JSON.parse(data); 
 
-        if(data == 'liked') {
+        if(data.status == 'liked') {
             that.addClass('liked');
         } else {
             that.removeClass('liked');
         }
+        that.find('b').text(data.count);
     });
 
 });

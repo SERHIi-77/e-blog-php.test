@@ -17,12 +17,15 @@ if(isset($_POST['post_id'])) {
                 $sql = "DELETE FROM user_post_likes WHERE user_id=".$user['id']." AND post_id=".$_POST['post_id'];
                 $conn->query($sql);
 
-                echo "disliked";
+                echo json_encode(['status' => 'disliked', 'count' => 1]); 
+
+                //echo "disliked";
             // иначе добавляем лайк от текущего пользователя
             } else {
                 $sql = "INSERT INTO user_post_likes (post_id, user_id) VALUES ('". $_POST['post_id'] ."','". $user['id'] ."');";
                 if($result = $conn->query($sql)) {
-                    echo "liked";
+                    echo json_encode(['status' => 'liked', 'count' => 2]);
+                    // echo "liked";
                 } 
             }
         }
