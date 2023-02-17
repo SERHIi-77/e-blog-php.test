@@ -1,12 +1,22 @@
+<?php
+$sql = "SELECT * FROM posts";
+$result = $conn->query($sql);
+if($result = $conn->query($sql)):
+    foreach($result as $row):
+        $catySQL = "SELECT * FROM categories WHERE id=".$row['category_id'];
+        $catyResult = $conn->query($catySQL);
+        $category = $catyResult->fetch_assoc();
+?>
+
 <div class="col-md-4">
     <div class="blog-entry ftco-animate">
-        <a href="#" class="img img-2" style="background-image: url(assets/images/image_1.jpg);"></a>
+        <a href="#" class="img img-2" style="background-image: url(<?php echo $row['preview']; ?>);"></a>
         <div class="text text-2 pt-2 mt-3">
-            <span class="category mb-3 d-block"><a href="#">Technology</a></span>
+            <span class="category mb-3 d-block"><a href="#"><?php echo $category['title']; ?></a></span>
             
-            <h3 class="mb-4"><a href="#">The Newest Technology On This Year 2019</a></h3>
+            <h3 class="mb-4"><a href="#"><?php echo $row['title']; ?></a></h3>
             
-            <p class="mb-4">Even the all-powerful Pointing has no control about the blind texts it is an almost</p>
+            <p class="mb-4"><?php echo $row['description']; ?></p>
             
             <div class="author mb-4 d-flex align-items-center">
                 <a href="#" class="img" style="background-image: url(assets/images/person_2.jpg);"></a>
@@ -33,3 +43,8 @@
         </div>
     </div>
 </div>
+
+<?php
+    endforeach;
+endif;
+?>
