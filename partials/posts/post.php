@@ -37,7 +37,23 @@ if($result = $conn->query($sql)):
             <div class="meta-wrap align-items-center">
                 <div class="half order-md-last">
                     <p class="meta">
-                        <span><i class="icon-heart"></i>3</span>
+                        <?php
+                        $likesSQL = 'SELECT count(*) as total FROM user_post_likes WHERE post_id=' . $row['id'];
+                        $likesResult = $conn->query($likesSQL);
+                        // получаем общее количество лайков
+                        $countLikes = $likesResult->fetch_assoc()['total'];
+                        // непонятная часть кода ???
+                        if(isset($_COOKIE['user'])) {
+                            $likeUserSQL = 'SELECT count (*) as total FROM user_post_likes WHERE post_id=' . $row['id'] . 'user_id=' . $_COOKIE['user'];
+                            $likeUserResult = $conn->query($likesSQL);
+                        }
+                        ?>
+                        <span class="likeBtn
+                        <?php if(isset($likeUserResult) && $likeUserResult->fetch_assoc()['total'] > 0) {
+                            echo "liked";
+                        }
+                        ?>
+                        " data-id="<?php echo $row['id']; ?>"><i class="icon-heart"></i><?php echo $countLikes; ?></span>
                         <span><i class="icon-eye"></i>100</span>
                         <span><i class="icon-comment"></i>5</span>
                     </p>
