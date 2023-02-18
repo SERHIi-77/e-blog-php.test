@@ -1,14 +1,30 @@
 <?php
+/*
+1. получить пароль пользователя
+2. полцчить пользователя по логину
+3. провверить совпадают ли пароли
 
+*/
 if(isset($_POST['submit'])):
     $login = $_POST['login'];
     $password = $_POST['password'];
-    $sql = "SELECT * FROM users WHERE `username` = '$login' AND `password`= '$password'";
+    $sql = "SELECT * FROM users WHERE `username` = '$login'";
     $result = $conn->query($sql);
     $user = $result->fetch_assoc();
-// initialize cookies for the logged in user
-    setcookie("user", $user['id'], time()+3600*12, "/");
-    header("Location: /");
+
+    if (password_verify($password, $user['password'])) {
+        //succes
+        //echo('You autorisation');
+        // initialize cookies for the logged in user
+        setcookie("user", $user['id'], time()+3600*12, "/");
+        header("Location: /");
+
+    }else{
+        //failed
+        echo ('password failed');
+        header("Location: #");
+    }
+
 endif;
 ?>
 
